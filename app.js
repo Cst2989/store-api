@@ -17,7 +17,7 @@ var app = express();
 // Database connection here
 
 
-mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_URL}`);
+mongoose.connection.openUri(`mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_URL}`);
 
 
 // **************************
@@ -48,7 +48,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/', index);
-app.use('/users', users);
+//app.use('/users', users);
 app.use('/api/v1', api)
 
 module.exports = app;
