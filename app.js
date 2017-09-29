@@ -4,7 +4,7 @@ var path       = require('path');
 var logger     = require('morgan');
 var bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-
+require('dotenv').load();
 // Require routes
 // They are yet to be created
 var index = require('./routes/index');
