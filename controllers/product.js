@@ -1,14 +1,11 @@
 // ./controllers/product
 const Model = require('../model');
-const {Product, Manufacturer} = Model;
+const {Product} = Model;
 
 const productController = {
     all (req, res) {
         // Returns all products
         Product.find({})
-            // alongside it's manufacturer
-            // information
-            .populate('manufacturer')
             .exec((err, products) => res.json(products))
     },
     byId (req, res) {
@@ -17,8 +14,6 @@ const productController = {
         // based on the passed in ID parameter
         Product
             .findOne({_id: idParam})
-            // as well as it's manufacturer
-            .populate('manufacturer')
             .exec( (err, product) => res.json(product) );
     },
     create (req, res) {
@@ -32,7 +27,6 @@ const productController = {
             // after a successful save
             Product
                 .findOne({_id: saved._id})
-                .populate('manufacturer')
                 .exec((err, product) => res.json(product));
         } )
     },
@@ -43,10 +37,11 @@ const productController = {
         Product.findOne({_id: idParam}, (err, data) => {
             // Updates the product payload
             data.name = product.name;
+            data.year = product.year;
+            data.location = product.location;
             data.description = product.description;
             data.image = product.image;
             data.price = product.price;
-            data.manufacturer = product.manufacturer;
             // Saves the product
             data.save((err, updated) => res.json(updated));
         })

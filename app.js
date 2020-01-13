@@ -17,8 +17,7 @@ var app = express();
 // Database connection here
 
 
-mongoose.connection.openUri(`mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_URL}`);
-
+mongoose.connection.openUri(`mongodb://cst:cst2989@ds155414.mlab.com:55414/vue-shop`);
 
 // **************************
 

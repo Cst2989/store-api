@@ -6,19 +6,12 @@ const Schema   = mongoose.Schema,
 const productSchema = Schema({
   id: ObjectId,
   name: String,
+  year: String,
+  location: String,
   image: String,
   price: Number,
   description: String,
-  // One to many relationship
-  manufacturer: {type: ObjectId, ref: 'Manufacturer'}
 });
-
-const manufacturerSchema = Schema({
-  id: ObjectId,
-  name: String,
-});
-
 const Product      = model('Product', productSchema);
-const Manufacturer = model('Manufacturer', manufacturerSchema);
 
-module.exports = {Product, Manufacturer};
+module.exports = {Product};
