@@ -5,10 +5,10 @@ const productController      = require('../../controllers/product')
 const manufacturerController = require('../../controllers/manufacturer')
 const mysql = require('mysql');
 const db = mysql.createConnection ({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'socka'
+    host: 'academiatestarii.ro',
+    user: 'academia_carstore',
+    password: 'academia_carstore',
+    database: 'academia_carstore'
 });
 // connect to database
 db.connect((err) => {
