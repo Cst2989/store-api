@@ -10,6 +10,7 @@ const db = mysql.createConnection ({
     password: 't8F01TnfaE',
     database: '7W8jy6kswF'
 });
+global.db = db;
 // connect to database
 db.connect((err) => {
     if (err) {
@@ -17,7 +18,7 @@ db.connect((err) => {
     }
     console.log('Connected to database');
 });
-global.db = db;
+
 router.get('/manufacturers', manufacturerController.all);
 router.post('/manufacturers', manufacturerController.create);
 router.get('/products', productController.all);
@@ -35,12 +36,12 @@ router.post('/login', function (req, res) {
     console.log("password: " + password);
     console.log('query: ' + query);
     
-    db.get(query , function(err, row) {
-
+    db.query(query , function(err, row) {
+        console.log(row)
         if(err) {
             console.log('ERROR', err);
             res.json(err);
-        } else if (!row) {
+        } else if (row.length < 1) {
             res.json("No username or password");
         } else {
             res.json('Login successfull!');
