@@ -4,20 +4,15 @@ const router                 = express.Router();
 const productController      = require('../../controllers/product')
 const manufacturerController = require('../../controllers/manufacturer')
 const mysql = require('mysql');
-const db = mysql.createConnection ({
+const db = mysql.createPool ({
     host: 'remotemysql.com',
     user: '7W8jy6kswF',
     password: 't8F01TnfaE',
     database: '7W8jy6kswF'
 });
+
 global.db = db;
-// connect to database
-db.connect((err) => {
-    if (err) {
-        throw err;
-    }
-    console.log('Connected to database');
-});
+
 
 router.get('/manufacturers', manufacturerController.all);
 router.post('/manufacturers', manufacturerController.create);
