@@ -86,4 +86,19 @@ router.post('/update-profile', function (req, res) {
     });
 
 });
+
+router.post('/reset', function (req, res) {
+    var username = req.body.username; 
+    var password = req.body.username; 
+    var query = "UPDATE users SET password = '" + password + "' where username = '" + username + "'";
+    db.query(query , function(err, row) {
+        if(err) {
+            console.log('ERROR', err);
+            res.json(err);
+        } else {
+            res.json(row);
+        }
+    });
+
+});
 module.exports = router;
