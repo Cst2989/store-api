@@ -72,7 +72,6 @@ router.post('/update-profile', function (req, res) {
     var city = req.body.city; 
     var id = req.body.id; 
     var query = "UPDATE users SET name = '" + name + "', email = '" + email + "', phone = '" + phone + "', city = '" + city + "' where id = '" + id + "'";
-   
     db.query(query , function(err, row) {
         console.log(row)
         if(err) {
