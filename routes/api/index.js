@@ -3,13 +3,10 @@ const express                = require('express');
 const router                 = express.Router();
 const productController      = require('../../controllers/product')
 const manufacturerController = require('../../controllers/manufacturer')
-const mysql = require('mysql');
-const db = mysql.createPool ({
-    host: 'remotemysql.com',
-    user: '7W8jy6kswF',
-    password: 't8F01TnfaE',
-    database: '7W8jy6kswF'
-});
+
+
+const db = require('./db');
+const conn = await db.connection();
 
 global.db = db;
 
@@ -27,7 +24,7 @@ router.post('/login', function (req, res) {
     var password = req.body.password; // a valid password is admin123
     var query = "SELECT * FROM users where username = '" + username + "' and password = '" + password + "'";
 
-    db.query(query , function(err, row) {
+    conn.execute(query , function(err, row) {
         console.log(row)
         if(err) {
             console.log('ERROR', err);
@@ -47,10 +44,10 @@ router.post('/register', function (req, res) {
     var password = req.body.password; // a valid password is admin123
     var query = "INSERT INTO users (username, password) VALUES ('" + username + "', '" + password +"')";
 
-    db.query(query , function(err, row) {
+    conn.execute(query , function(err, row) {
         console.log(row)
         var query2 = "SELECT * FROM users where id = '" + row.insertId + "'";
-        db.query(query2 , function(err, row) {
+        conn.execute(query2 , function(err, row) {
             if(err) {
                 console.log('ERROR', err);
                 res.json(err);
@@ -72,7 +69,7 @@ router.post('/update-profile', function (req, res) {
     var city = req.body.city; 
     var id = req.body.id; 
     var query = "UPDATE users SET name = '" + name + "', email = '" + email + "', phone = '" + phone + "', city = '" + city + "' where id = '" + id + "'";
-    db.query(query , function(err, row) {
+    conn.execute(query , function(err, row) {
         console.log(row)
         if(err) {
             console.log('ERROR', err);
@@ -90,7 +87,7 @@ router.post('/reset', function (req, res) {
     var username = req.body.username; 
     var password = req.body.username; 
     var query = "UPDATE users SET password = '" + password + "' where username = '" + username + "'";
-    db.query(query , function(err, row) {
+    conn.execute(query , function(err, row) {
         if(err) {
             console.log('ERROR', err);
             res.json(err);
