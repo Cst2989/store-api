@@ -5,10 +5,15 @@ const productController      = require('../../controllers/product')
 const manufacturerController = require('../../controllers/manufacturer')
 
 
-const db = require('./db');
-const conn = await db.connection();
+const mysql = require('mysql');
 
-global.db = db;
+const db = mysql.createPool ({
+    host: '35.205.170.137',
+    user: 'root',
+    password: 'Hackers!@#@sprints',
+    database: 'sprints',
+    connectionLimit: 10000,
+});
 
 
 router.get('/manufacturers', manufacturerController.all);
@@ -24,7 +29,7 @@ router.post('/login', function (req, res) {
     var password = req.body.password; // a valid password is admin123
     var query = "SELECT * FROM users where username = '" + username + "' and password = '" + password + "'";
 
-    conn.execute(query , function(err, row) {
+    db.query(query , function(err, row) {
         console.log(row)
         if(err) {
             console.log('ERROR', err);
@@ -32,19 +37,19 @@ router.post('/login', function (req, res) {
         } else if (row.length < 1) {
             res.json("No username or password");
         } else {
-
+            
             res.json(row[0]);
         }
     });
-
+    
 });
 
 router.post('/register', function (req, res) {
     var username = req.body.username; // a valid username is admin
     var password = req.body.password; // a valid password is admin123
     var query = "INSERT INTO users (username, password) VALUES ('" + username + "', '" + password +"')";
-
-    conn.execute(query , function(err, row) {
+    
+    db.query(query , function(err, row) {
         console.log(row)
         var query2 = "SELECT * FROM users where id = '" + row.insertId + "'";
         conn.execute(query2 , function(err, row) {
@@ -54,12 +59,12 @@ router.post('/register', function (req, res) {
             } else if (row.length < 1) {
                 res.json("No username or password");
             } else {
-    
+                
                 res.json(row[0]);
             } 
         })
     });
-
+    
 });
 
 router.post('/update-profile', function (req, res) {
@@ -69,7 +74,7 @@ router.post('/update-profile', function (req, res) {
     var city = req.body.city; 
     var id = req.body.id; 
     var query = "UPDATE users SET name = '" + name + "', email = '" + email + "', phone = '" + phone + "', city = '" + city + "' where id = '" + id + "'";
-    conn.execute(query , function(err, row) {
+    db.query(query , function(err, row) {
         console.log(row)
         if(err) {
             console.log('ERROR', err);
@@ -80,14 +85,14 @@ router.post('/update-profile', function (req, res) {
             res.json(row[0]);
         }
     });
-
+    
 });
 
 router.post('/reset', function (req, res) {
     var username = req.body.username; 
     var password = req.body.username; 
     var query = "UPDATE users SET password = '" + password + "' where username = '" + username + "'";
-    conn.execute(query , function(err, row) {
+    db.query(query , function(err, row) {
         if(err) {
             console.log('ERROR', err);
             res.json(err);
@@ -95,6 +100,6 @@ router.post('/reset', function (req, res) {
             res.json(row);
         }
     });
-
+    
 });
 module.exports = router;
