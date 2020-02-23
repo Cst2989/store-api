@@ -50,9 +50,8 @@ router.post('/register', function (req, res) {
     var query = "INSERT INTO users (username, password) VALUES ('" + username + "', '" + password +"')";
     
     db.query(query , function(err, row) {
-        console.log(row)
         var query2 = "SELECT * FROM users where id = '" + row.insertId + "'";
-        conn.execute(query2 , function(err, row) {
+        db.query(query2 , function(err, row) {
             if(err) {
                 console.log('ERROR', err);
                 res.json(err);
