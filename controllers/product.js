@@ -1,6 +1,8 @@
 // ./controllers/product
 const Model = require('../model');
 const {Product} = Model;
+const csv = require('csv-parser');
+const fs = require('fs');
 
 const productController = {
     all (req, res) {
@@ -29,6 +31,29 @@ const productController = {
                 .findOne({_id: saved._id})
                 .exec((err, product) => res.json(product));
         } )
+    },
+    upload (req, res) {
+        var fstream;
+        req.pipe(req.busboy);
+        const results = [];
+        req.busboy.on('file', function (fieldname, file, filename) {
+            console.log("Uploading: " + filename); 
+            file.pipe(csv())
+            .on('data', (data) => results.push(data))
+            .on('end', () => {
+                results.map(result => {
+                    const newProduct = new Product(result);
+                    // and saves the record to
+                    // the data base
+                    newProduct.save( (err, saved) => {
+                        // Returns the saved product
+                        // after a successful save
+                        
+                    })
+                });
+            })
+        });
+        res.json("SUccess")
     },
     update (req, res) {
         const idParam = req.params.id;

@@ -4,6 +4,9 @@ var path       = require('path');
 var logger     = require('morgan');
 var bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+var busboy = require('connect-busboy');
+//...
+
 require('dotenv').load();
 // Require routes
 // They are yet to be created
@@ -45,7 +48,7 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
+app.use(busboy()); 
 app.use('/', index);
 //app.use('/users', users);
 app.use('/api/v1', api)

@@ -23,6 +23,7 @@ router.get('/products/:id', productController.byId);
 router.post('/products', productController.create);
 router.put('/products/:id', productController.update);
 router.delete('/products/:id', productController.remove);
+router.post('/upload-cars', productController.upload);
 
 router.post('/login', function (req, res) {
     var username = req.body.username; // a valid username is admin
