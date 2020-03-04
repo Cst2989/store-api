@@ -41,13 +41,17 @@ const productController = {
             file.pipe(csv())
             .on('data', (data) => results.push(data))
             .on('end', () => {
+                
                 results.map(result => {
                     const newProduct = new Product(result);
                     // and saves the record to
                     // the data base
+                    //console.log(newProduct);
                     newProduct.save( (err, saved) => {
-                        // Returns the saved product
-                        // after a successful save
+                        console.log(saved);
+                        Product
+                        .findOne({_id: saved._id})
+                        .exec((err, product) => console.log(product));
                         
                     })
                 });

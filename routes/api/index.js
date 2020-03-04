@@ -88,6 +88,32 @@ router.post('/update-profile', function (req, res) {
     
 });
 
+router.post('/update-profile-headers', function (req, res) {
+    if(req.headers.authorization !== 'Bearer YWRtaW5AYWRtaW4='){
+        res.status(401).end();
+    } else {
+        var name = req.body.name; 
+        var email = req.body.email; 
+        var phone = req.body.phone; 
+        var city = req.body.city; 
+        var id = req.body.id; 
+        var query = "UPDATE users SET name = '" + name + "', email = '" + email + "', phone = '" + phone + "', city = '" + city + "' where id = '" + id + "'";
+        db.query(query , function(err, row) {
+            console.log(row)
+            if(err) {
+                console.log('ERROR', err);
+                res.json(err);
+            } else if (row.length < 1) {
+                res.json("No user found");
+            } else {
+                res.json(row[0]);
+            }
+        });
+    }
+    
+    
+});
+
 router.post('/reset', function (req, res) {
     var username = req.body.username; 
     var password = req.body.username; 
