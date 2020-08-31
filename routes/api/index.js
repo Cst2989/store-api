@@ -1,20 +1,18 @@
 // routes/api/index.js
-const express                = require('express');
-const router                 = express.Router();
-const productController      = require('../../controllers/product')
-const manufacturerController = require('../../controllers/manufacturer')
-
+const express = require('express');
+const router = express.Router();
+const productController = require('../../controllers/product');
+const manufacturerController = require('../../controllers/manufacturer');
 
 const mysql = require('mysql');
 
-const db = mysql.createPool ({
-    host: '35.205.170.137',
-    user: 'root',
-    password: 'Hackers!@#@sprints',
-    database: 'sprints',
-    connectionLimit: 10000,
+const db = mysql.createPool({
+  host: '144.76.145.178',
+  user: 'vladstoica15_sprints',
+  password: '-WuTLTFxSD$X',
+  database: 'sprints',
+  connectionLimit: 10000
 });
-
 
 router.get('/manufacturers', manufacturerController.all);
 router.post('/manufacturers', manufacturerController.create);
@@ -25,107 +23,136 @@ router.put('/products/:id', productController.update);
 router.delete('/products/:id', productController.remove);
 router.post('/upload-cars', productController.upload);
 
-router.post('/login', function (req, res) {
-    var username = req.body.username; // a valid username is admin
-    var password = req.body.password; // a valid password is admin123
-    var query = "SELECT * FROM users where username = '" + username + "' and password = '" + password + "'";
+router.post('/login', function(req, res) {
+  var username = req.body.username; // a valid username is admin
+  var password = req.body.password; // a valid password is admin123
+  var query =
+    "SELECT * FROM users where username = '" +
+    username +
+    "' and password = '" +
+    password +
+    "'";
 
-    db.query(query , function(err, row) {
-        console.log(row)
-        if(err) {
-            console.log('ERROR', err);
-            res.json(err);
-        } else if (row.length < 1) {
-            res.json("No username or password");
-        } else {
-            
-            res.json(row[0]);
-        }
-    });
-    
-});
-
-router.post('/register', function (req, res) {
-    var username = req.body.username; // a valid username is admin
-    var password = req.body.password; // a valid password is admin123
-    var query = "INSERT INTO users (username, password) VALUES ('" + username + "', '" + password +"')";
-    
-    db.query(query , function(err, row) {
-        var query2 = "SELECT * FROM users where id = '" + row.insertId + "'";
-        db.query(query2 , function(err, row) {
-            if(err) {
-                console.log('ERROR', err);
-                res.json(err);
-            } else if (row.length < 1) {
-                res.json("No username or password");
-            } else {
-                
-                res.json(row[0]);
-            } 
-        })
-    });
-    
-});
-
-router.post('/update-profile', function (req, res) {
-    var name = req.body.name; 
-    var email = req.body.email; 
-    var phone = req.body.phone; 
-    var city = req.body.city; 
-    var id = req.body.id; 
-    var query = "UPDATE users SET name = '" + name + "', email = '" + email + "', phone = '" + phone + "', city = '" + city + "' where id = '" + id + "'";
-    db.query(query , function(err, row) {
-        console.log(row)
-        if(err) {
-            console.log('ERROR', err);
-            res.json(err);
-        } else if (row.length < 1) {
-            res.json("No user found");
-        } else {
-            res.json(row[0]);
-        }
-    });
-    
-});
-
-router.post('/update-profile-headers', function (req, res) {
-    if(req.headers.authorization !== 'Bearer YWRtaW5AYWRtaW4='){
-        res.status(401).end();
+  db.query(query, function(err, row) {
+    console.log(row);
+    if (err) {
+      console.log('ERROR', err);
+      res.json(err);
+    } else if (row.length < 1) {
+      res.json('No username or password');
     } else {
-        var name = req.body.name; 
-        var email = req.body.email; 
-        var phone = req.body.phone; 
-        var city = req.body.city; 
-        var id = req.body.id; 
-        var query = "UPDATE users SET name = '" + name + "', email = '" + email + "', phone = '" + phone + "', city = '" + city + "' where id = '" + id + "'";
-        db.query(query , function(err, row) {
-            console.log(row)
-            if(err) {
-                console.log('ERROR', err);
-                res.json(err);
-            } else if (row.length < 1) {
-                res.json("No user found");
-            } else {
-                res.json(row[0]);
-            }
-        });
+      res.json(row[0]);
     }
-    
-    
+  });
 });
 
-router.post('/reset', function (req, res) {
-    var username = req.body.username; 
-    var password = req.body.username; 
-    var query = "UPDATE users SET password = '" + password + "' where username = '" + username + "'";
-    db.query(query , function(err, row) {
-        if(err) {
-            console.log('ERROR', err);
-            res.json(err);
-        } else {
-            res.json(row);
-        }
+router.post('/register', function(req, res) {
+  var username = req.body.username; // a valid username is admin
+  var password = req.body.password; // a valid password is admin123
+  var query =
+    "INSERT INTO users (username, password) VALUES ('" +
+    username +
+    "', '" +
+    password +
+    "')";
+
+  db.query(query, function(err, row) {
+    var query2 = "SELECT * FROM users where id = '" + row.insertId + "'";
+    db.query(query2, function(err, row) {
+      if (err) {
+        console.log('ERROR', err);
+        res.json(err);
+      } else if (row.length < 1) {
+        res.json('No username or password');
+      } else {
+        res.json(row[0]);
+      }
     });
-    
+  });
+});
+
+router.post('/update-profile', function(req, res) {
+  var name = req.body.name;
+  var email = req.body.email;
+  var phone = req.body.phone;
+  var city = req.body.city;
+  var id = req.body.id;
+  var query =
+    "UPDATE users SET name = '" +
+    name +
+    "', email = '" +
+    email +
+    "', phone = '" +
+    phone +
+    "', city = '" +
+    city +
+    "' where id = '" +
+    id +
+    "'";
+  db.query(query, function(err, row) {
+    console.log(row);
+    if (err) {
+      console.log('ERROR', err);
+      res.json(err);
+    } else if (row.length < 1) {
+      res.json('No user found');
+    } else {
+      res.json(row[0]);
+    }
+  });
+});
+
+router.post('/update-profile-headers', function(req, res) {
+  if (req.headers.authorization !== 'Bearer YWRtaW5AYWRtaW4=') {
+    res.status(401).end();
+  } else {
+    var name = req.body.name;
+    var email = req.body.email;
+    var phone = req.body.phone;
+    var city = req.body.city;
+    var id = req.body.id;
+    var query =
+      "UPDATE users SET name = '" +
+      name +
+      "', email = '" +
+      email +
+      "', phone = '" +
+      phone +
+      "', city = '" +
+      city +
+      "' where id = '" +
+      id +
+      "'";
+    db.query(query, function(err, row) {
+      console.log(row);
+      if (err) {
+        console.log('ERROR', err);
+        res.json(err);
+      } else if (row.length < 1) {
+        res.json('No user found');
+      } else {
+        res.json(row[0]);
+      }
+    });
+  }
+});
+
+router.post('/reset', function(req, res) {
+  var username = req.body.username;
+  var password = req.body.username;
+  var query =
+    "UPDATE users SET password = '" +
+    password +
+    "' where username = '" +
+    username +
+    "'";
+  db.query(query, function(err, row) {
+    if (err) {
+      console.log('ERROR', err);
+      res.json(err);
+    } else {
+      res.json(row);
+    }
+  });
 });
 module.exports = router;
