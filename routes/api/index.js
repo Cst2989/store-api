@@ -10,7 +10,7 @@ const db = mysql.createPool({
   host: '144.76.145.178',
   user: 'vladstoica15_sprints',
   password: '-WuTLTFxSD$X',
-  database: 'sprints',
+  database: 'vladstoica15_sprints',
   connectionLimit: 10000
 });
 
