@@ -56,7 +56,8 @@ router.post('/register', function(req, res) {
     password +
     "')";
 
-  db.query(query, function(err, row) {
+  db.query(query, function(err1, row) {
+    console.log('ERROR', err1);
     var query2 = "SELECT * FROM users where id = '" + row.insertId + "'";
     db.query(query2, function(err, row) {
       if (err) {
