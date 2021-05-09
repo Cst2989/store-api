@@ -1,7 +1,7 @@
 // Imports
-var express    = require('express');
-var path       = require('path');
-var logger     = require('morgan');
+var express = require('express');
+var path = require('path');
+var logger = require('morgan');
 var bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 var busboy = require('connect-busboy');
@@ -19,18 +19,22 @@ var app = express();
 
 // Database connection here
 
-
-mongoose.connection.openUri(`mongodb://cst:cst2989@ds155414.mlab.com:55414/vue-shop`);
+mongoose.connection.openUri(
+  `mongodb+srv://cst2989:jUnZ2pm9ZJX2SZY@cluster0.2hzku.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
+);
 
 // **************************
 
 // CORS config will be here
-app.all('/*', function(req, res, next) {
+app.all('/*', function (req, res, next) {
   // CORS headers
-  res.header("Access-Control-Allow-Origin", "*"); // restrict it to the required domain
+  res.header('Access-Control-Allow-Origin', '*'); // restrict it to the required domain
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
   // Set custom headers for CORS
-  res.header('Access-Control-Allow-Headers', 'Content-type,Accept,X-Access-Token,X-Key');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Content-type,Accept,X-Access-Token,X-Key'
+  );
   if (req.method == 'OPTIONS') {
     res.status(200).end();
   } else {
@@ -48,9 +52,9 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(busboy()); 
+app.use(busboy());
 app.use('/', index);
 //app.use('/users', users);
-app.use('/api/v1', api)
+app.use('/api/v1', api);
 
 module.exports = app;
