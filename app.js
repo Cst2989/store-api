@@ -3,7 +3,6 @@ var express = require('express');
 var path = require('path');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
-const mongoose = require('mongoose');
 var busboy = require('connect-busboy');
 //...
 
@@ -18,10 +17,6 @@ var app = express();
 // **************************
 
 // Database connection here
-
-mongoose.connection.openUri(
-  `mongodb://cst2989:jUnZ2pm9ZJX2SZY@cluster0.2hzku.mongodb.net/vue-api?retryWrites=true&w=majority`
-);
 
 // **************************
 

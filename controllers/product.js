@@ -3,6 +3,8 @@ const Model = require('../model');
 const {Product} = Model;
 const csv = require('csv-parser');
 const fs = require('fs');
+var MongoClient = require('mongodb').MongoClient;
+var url = 'mongodb://localhost/EmployeeDB';
 
 const productController = {
     all (req, res) {
@@ -19,6 +21,7 @@ const productController = {
             .exec( (err, product) => res.json(product) );
     },
     create (req, res) {
+      
         const requestBody = req.body;
         // Creates a new record from a submitted form
         const newProduct = new Product(requestBody);
@@ -37,11 +40,11 @@ const productController = {
         req.pipe(req.busboy);
         const results = [];
         req.busboy.on('file', function (fieldname, file, filename) {
-            console.log("Uploading: " + filename); 
+            console.log("Uploading: " + filename);
             file.pipe(csv())
             .on('data', (data) => results.push(data))
             .on('end', () => {
-                
+
                 results.map(result => {
                     const newProduct = new Product(result);
                     // and saves the record to
@@ -52,7 +55,7 @@ const productController = {
                         Product
                         .findOne({_id: saved._id})
                         .exec((err, product) => console.log(product));
-                        
+
                     })
                 });
             })
