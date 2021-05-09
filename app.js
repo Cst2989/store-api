@@ -20,7 +20,7 @@ var app = express();
 // Database connection here
 
 mongoose.connection.openUri(
-  `mongodb+srv://cst2989:jUnZ2pm9ZJX2SZY@cluster0.2hzku.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
+  `mongodb+srv://cst2989:jUnZ2pm9ZJX2SZY@cluster0.2hzku.mongodb.net/vue-api.products?retryWrites=true&w=majority`
 );
 
 // **************************
