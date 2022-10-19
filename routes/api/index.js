@@ -13,8 +13,10 @@ const db = mysql.createPool({
 });
 
 const MongoClient = require('mongodb').MongoClient;
+
 const uri =
-  'mongodb+srv://cst2989:jUnZ2pm9ZJX2SZY@cluster0.2hzku.mongodb.net/vue-api2?retryWrites=true&w=majority';
+  'mongodb+srv://cst2989:jUnZ2pm9ZJX2SZY@cluster0.2hzku.mongodb.net/?retryWrites=true&w=majority';
+
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
